@@ -1,0 +1,14 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: cimg/go:1.18.1
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: cd src; go get ./...
+      - run:
+          name: Run tests
+          command: make unittest
