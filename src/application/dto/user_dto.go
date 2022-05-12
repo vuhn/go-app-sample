@@ -7,7 +7,7 @@ import (
 )
 
 type (
-	// UserRequest defines http request params
+	// UserRequest defines http request params to create/update user
 	UserRequest struct {
 		ID        string    `json:"id"`
 		Email     string    `json:"email" validate:"required,email"`
@@ -26,6 +26,12 @@ type (
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
 	}
+
+	// UserLoginRequest defined http request params for user login
+	UserLoginRequest struct {
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required,gte=6,lte=20"`
+	}
 )
 
 // ToEntity returns user entity from user dto
@@ -34,6 +40,7 @@ func (u *UserRequest) ToEntity() *entity.User {
 		ID:        u.ID,
 		Email:     u.Email,
 		Fullname:  u.Fullname,
+		Password:  u.Password,
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
 	}

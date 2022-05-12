@@ -25,6 +25,7 @@ func NewUserHandler(echo *echo.Echo,
 		idGenerator: idGenerator,
 	}
 	echo.POST("/users", handler.CreateUser)
+	echo.POST("/users/login", handler.Login)
 }
 
 // CreateUser is method for create user endpoint
@@ -50,4 +51,31 @@ func (h *UserHandler) CreateUser(c echo.Context) error {
 
 	userDto := dto.NewUserResponseFromEntity(userEntity)
 	return c.JSON(http.StatusCreated, dto.NewSuccessResponse(userDto))
+}
+
+// Login is method to process user login
+func (h *UserHandler) Login(c echo.Context) error {
+	loginParam := dto.UserLoginRequest{}
+	if err := c.Bind(&loginParam); err != nil {
+		return c.JSON(http.StatusBadRequest, dto.NewErrorResponse(errs.ErrInvalidRequestBody.Error()))
+	}
+
+	if err := c.Validate(loginParam); err != nil {
+		return err
+	}
+
+	token, err := h.userService.Login(loginParam.Email, loginParam.Password)
+	if err == errs.ErrInternalServer {
+		return c.JSON(http.StatusInternalServerError, dto.NewErrorResponse(err.Error()))
+	}
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, dto.NewErrorResponse(err.Error()))
+	}
+
+	loginResponse := map[string]string{
+		"token": token,
+	}
+
+	return c.JSON(http.StatusCreated, dto.NewSuccessResponse(loginResponse))
 }

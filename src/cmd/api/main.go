@@ -9,6 +9,8 @@ import (
 	"github.com/vuhn/go-app-sample/entity"
 	"github.com/vuhn/go-app-sample/infrastructure/db/postgres"
 	"github.com/vuhn/go-app-sample/pkg/idgenerator"
+	"github.com/vuhn/go-app-sample/pkg/password"
+	"github.com/vuhn/go-app-sample/pkg/token"
 )
 
 func main() {
@@ -34,6 +36,8 @@ func main() {
 		DB:          db,
 		Server:      e,
 		IDGenerator: idgenerator.NewIDGenerator(),
+		Token:       token.NewJWTToken(appConfig.Secret.JWTKey),
+		Password:    password.NewBcryptPassword(),
 	}
 
 	InitAPIHandler(apiDeps)

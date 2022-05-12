@@ -5,6 +5,7 @@ import "github.com/kelseyhightower/envconfig"
 type AppConfig struct {
 	Database Database
 	Server   Server
+	Secret   Secret
 }
 
 // Database contains postgres db config
@@ -20,6 +21,10 @@ type Database struct {
 type Server struct {
 	Port string `envconfig:"SERVER_PORT" default:"8080"`
 	Host string `envconfig:"SERVER_HOST" default:"0.0.0.0"`
+}
+
+type Secret struct {
+	JWTKey string `envconfig:"JWT_KEY" default:"112233445566"`
 }
 
 func LoadAppConfig() (*AppConfig, error) {
