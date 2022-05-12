@@ -210,6 +210,153 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnBadRequest() {
 	s.EqualValues(rec.Body.String(), respBodyJSON)
 }
 
+func (s *UserHandlerTestSuite) TestLogin_ShouldReturnSuccess() {
+	user := &dto.UserLoginRequest{
+		Email:    "test1@gmail.com",
+		Password: "123456",
+	}
+
+	body, err := json.Marshal(user)
+	s.NoError(err)
+	bodyJSON := string(body)
+
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	generatedToken := "generated_token"
+	s.userService.
+		On("Login", user.Email, user.Password).
+		Return(generatedToken, nil)
+
+	NewUserHandler(s.server, s.userService, s.idGenerator)
+	s.server.ServeHTTP(rec, req)
+
+	data := map[string]string{
+		"token": generatedToken,
+	}
+	resp := dto.NewSuccessResponse(data)
+	respBody, err := json.Marshal(resp)
+	s.NoError(err)
+
+	// echo framework adds a new line at end of JSON string
+	respBodyJSON := string(respBody) + "\n"
+	s.Equal(http.StatusCreated, rec.Code)
+	s.EqualValues(rec.Body.String(), respBodyJSON)
+}
+
+func (s *UserHandlerTestSuite) TestLogin_ShouldReturnServerError() {
+	user := &dto.UserLoginRequest{
+		Email:    "test1@gmail.com",
+		Password: "123456",
+	}
+
+	body, err := json.Marshal(user)
+	s.NoError(err)
+	bodyJSON := string(body)
+
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	s.userService.
+		On("Login", user.Email, user.Password).
+		Return("", errs.ErrInternalServer)
+
+	NewUserHandler(s.server, s.userService, s.idGenerator)
+	s.server.ServeHTTP(rec, req)
+
+	resp := dto.NewErrorResponse(errs.ErrInternalServer.Error())
+	respBody, err := json.Marshal(resp)
+	s.NoError(err)
+
+	// echo framework adds a new line at end of JSON string
+	respBodyJSON := string(respBody) + "\n"
+	s.Equal(http.StatusInternalServerError, rec.Code)
+	s.EqualValues(respBodyJSON, rec.Body.String())
+}
+
+func (s *UserHandlerTestSuite) TestLogin_ShouldReturnBadRequest() {
+	bodyJSON := "invalid json data"
+
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	NewUserHandler(s.server, s.userService, s.idGenerator)
+	s.server.ServeHTTP(rec, req)
+
+	resp := dto.NewErrorResponse(errs.ErrInvalidRequestBody.Error())
+	respBody, err := json.Marshal(resp)
+	s.NoError(err)
+
+	// echo framework adds a new line at end of JSON string
+	respBodyJSON := string(respBody) + "\n"
+	s.Equal(http.StatusBadRequest, rec.Code)
+	s.EqualValues(rec.Body.String(), respBodyJSON)
+}
+
+func (s *UserHandlerTestSuite) TestLogin_ShouldReturnPasswordInvalid() {
+	user := &dto.UserLoginRequest{
+		Email:    "test1@gmail.com",
+		Password: "123457",
+	}
+
+	body, err := json.Marshal(user)
+	s.NoError(err)
+	bodyJSON := string(body)
+
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	s.userService.
+		On("Login", user.Email, user.Password).
+		Return("", errs.ErrPasswordInvalid)
+
+	NewUserHandler(s.server, s.userService, s.idGenerator)
+	s.server.ServeHTTP(rec, req)
+
+	resp := dto.NewErrorResponse(errs.ErrPasswordInvalid.Error())
+	respBody, err := json.Marshal(resp)
+	s.NoError(err)
+
+	// echo framework adds a new line at end of JSON string
+	respBodyJSON := string(respBody) + "\n"
+	s.Equal(http.StatusBadRequest, rec.Code)
+	s.EqualValues(respBodyJSON, rec.Body.String())
+}
+
+func (s *UserHandlerTestSuite) TestLogin_ShouldReturnEmailInvalidValidation() {
+	user := &dto.UserLoginRequest{
+		Email:    "invalid_email",
+		Password: "123457",
+	}
+
+	body, err := json.Marshal(user)
+	s.NoError(err)
+	bodyJSON := string(body)
+
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	NewUserHandler(s.server, s.userService, s.idGenerator)
+	s.server.ServeHTTP(rec, req)
+
+	validationErrs := []string{
+		"invalid_email",
+	}
+	resp := dto.NewErrorResponse(validationErrs)
+	respBody, err := json.Marshal(resp)
+	s.NoError(err)
+
+	// echo framework adds a new line at end of JSON string
+	respBodyJSON := string(respBody) + "\n"
+	s.Equal(http.StatusBadRequest, rec.Code)
+	s.EqualValues(respBodyJSON, rec.Body.String())
+}
+
 func TestCreateUser(t *testing.T) {
 	t.Parallel()
 	suite.Run(t, new(UserHandlerTestSuite))
