@@ -22,3 +22,15 @@ jobs:
       - run: 
           name: Deploy to GCP
           command: make ci-deploy-gcp KEYFILE=${HOME}/service-account-key.json
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: main
