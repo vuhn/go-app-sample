@@ -28,7 +28,7 @@ ci-deploy-gcp:
 	make deploy-gcp
 
 deploy-gcp:
-	cat deployment/app_evn_dev.yaml > deployments/app_env.yaml
+	cat deployment/app_evn_dev.yaml > deployment/app_env.yaml
 	echo "  DB_HOST: $(DB_HOST)" >> deployment/app_env.yaml
 	echo "  DB_PASSWORD: $(DB_PASSWORD)" >> deployment/app_env.yaml
 	cd src; gcloud app deploy \
