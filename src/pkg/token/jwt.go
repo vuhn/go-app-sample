@@ -19,8 +19,8 @@ func (j *JWTToken) Generate(payload map[string]interface{}) (string, error) {
 	claims := jwt.MapClaims{}
 	claims = payload
 
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := at.SignedString([]byte(j.jwtKey))
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token, err := jwtToken.SignedString([]byte(j.jwtKey))
 	if err != nil {
 		return "", err
 	}

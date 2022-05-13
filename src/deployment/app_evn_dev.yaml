@@ -3,4 +3,3 @@ env_variables:
   DB_PORT: 5432
   DB_NAME: "go-app-sample"
   DB_SSL_MODE: disable
-  IS_CLOUD_SQL: true
