@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
@@ -41,5 +43,7 @@ func main() {
 	}
 
 	InitAPIHandler(apiDeps)
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Info("Starting server...")
+	serverAddress := fmt.Sprintf("0.0.0.0:%s", appConfig.Server.Port)
+	e.Logger.Fatal(e.Start(serverAddress))
 }

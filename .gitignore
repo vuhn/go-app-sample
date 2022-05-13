@@ -1,1 +1,2 @@
 .docker/volumes/pgdata/*
+gcp_service_account_key.json

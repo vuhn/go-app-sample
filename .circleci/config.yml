@@ -12,3 +12,13 @@ jobs:
       - run:
           name: Run tests
           command: make unittest
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run: echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/service-account-key.json
+      - run: 
+          name: Deploy to GCP
+          command: make ci-deploy-gcp KEYFILE=${HOME}/service-account-key.json
