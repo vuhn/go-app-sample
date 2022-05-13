@@ -25,12 +25,12 @@ jobs:
 
 workflows:
   version: 2.1
-  build:
+  build-and-deploy:
     jobs:
       - build
-  deploy:
-    jobs:
       - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: main
