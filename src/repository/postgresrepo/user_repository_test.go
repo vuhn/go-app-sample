@@ -6,7 +6,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/suite"
-	"github.com/vuhn/go-app-sample/infrastructure/repository"
+	"github.com/vuhn/go-app-sample/repository"
 	"github.com/vuhn/go-app-sample/testdata"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

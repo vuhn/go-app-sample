@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/vuhn/go-app-sample/entity"
-	"github.com/vuhn/go-app-sample/infrastructure/repository"
+	"github.com/vuhn/go-app-sample/repository"
 	"gorm.io/gorm"
 )
 

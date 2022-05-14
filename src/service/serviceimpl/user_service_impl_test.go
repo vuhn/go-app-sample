@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/suite"
 	"github.com/vuhn/go-app-sample/errs"
-	repoMocks "github.com/vuhn/go-app-sample/infrastructure/repository/mocks"
 	pkgMocks "github.com/vuhn/go-app-sample/pkg/mocks"
+	repoMocks "github.com/vuhn/go-app-sample/repository/mocks"
 
 	"github.com/vuhn/go-app-sample/testdata"
 )

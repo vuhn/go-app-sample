@@ -3,9 +3,9 @@ package serviceimpl
 import (
 	"github.com/vuhn/go-app-sample/entity"
 	"github.com/vuhn/go-app-sample/errs"
-	"github.com/vuhn/go-app-sample/infrastructure/repository"
 	"github.com/vuhn/go-app-sample/pkg/password"
 	"github.com/vuhn/go-app-sample/pkg/token"
+	"github.com/vuhn/go-app-sample/repository"
 	"github.com/vuhn/go-app-sample/service"
 )
 

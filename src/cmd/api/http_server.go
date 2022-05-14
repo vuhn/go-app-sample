@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/vuhn/go-app-sample/application/api/handler"
-	"github.com/vuhn/go-app-sample/infrastructure/repository/postgresrepo"
 	"github.com/vuhn/go-app-sample/pkg/idgenerator"
 	"github.com/vuhn/go-app-sample/pkg/password"
 	"github.com/vuhn/go-app-sample/pkg/token"
+	"github.com/vuhn/go-app-sample/repository/postgresrepo"
 	"github.com/vuhn/go-app-sample/service/serviceimpl"
 	"gorm.io/gorm"
 )
