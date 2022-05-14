@@ -36,5 +36,5 @@ deploy-gcp:
 		--version ${VER} \
 		--no-promote \
 		--quiet \
-		./deployment/app.yaml
+		./.deployment/app.yaml
 	rm src/.deployment/app_env.yaml
