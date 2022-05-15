@@ -29,7 +29,7 @@ type UserServiceImpl struct {
 	password       password.Password
 }
 
-// CreateUser creates take user entity and create an user
+// CreateUser is method to create an user
 func (u *UserServiceImpl) CreateUser(user *entity.User) (*entity.User, error) {
 	existedUser, err := u.userRepository.GetUserByEmail(user.Email)
 	if err != nil {
@@ -54,7 +54,7 @@ func (u *UserServiceImpl) CreateUser(user *entity.User) (*entity.User, error) {
 	return userEntity, nil
 }
 
-// Login is method to very user credentials and return a access token
+// Login is method to verify user's credentials and return a access token
 func (u *UserServiceImpl) Login(email string, password string) (string, error) {
 	user, err := u.userRepository.GetUserByEmail(email)
 	if err != nil {

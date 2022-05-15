@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-// User reflects users data from DB
+// User defines table user structure
 type User struct {
 	ID        string
 	Email     string

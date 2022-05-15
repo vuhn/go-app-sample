@@ -7,7 +7,7 @@ start-api:
 
 mocks:
 	cd src/pkg; mockery --all
-	cd src/infrastructure/repository; mockery --all
+	cd src/repository; mockery --all
 	cd src/service; mockery --all
 
 unittest:
@@ -31,6 +31,7 @@ deploy-gcp:
 	cat src/.deployment/app_evn_dev.yaml > src/.deployment/app_env.yaml
 	echo "  DB_HOST: $(DB_HOST)" >> src/.deployment/app_env.yaml
 	echo "  DB_PASSWORD: $(DB_PASSWORD)" >> src/.deployment/app_env.yaml
+	echo "  JWT_KEY: $(JWT_KEY)" >> src/.deployment/app_env.yaml
 	cd src; gcloud app deploy \
 		--project ${GCP_PROJECT_ID} \
 		--version ${VER} \

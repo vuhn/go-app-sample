@@ -53,7 +53,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnSuccess() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -93,7 +93,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnInvalidValidation() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -129,7 +129,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnEmailExistedError() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -167,7 +167,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnServerError() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -193,7 +193,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnServerError() {
 func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnBadRequest() {
 	bodyJSON := "invalid json data"
 
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -220,7 +220,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnSuccess() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -255,7 +255,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnServerError() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -279,7 +279,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnServerError() {
 func (s *UserHandlerTestSuite) TestLogin_ShouldReturnBadRequest() {
 	bodyJSON := "invalid json data"
 
-	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -306,7 +306,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnPasswordInvalid() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -337,7 +337,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnEmailInvalidValidation() {
 	s.NoError(err)
 	bodyJSON := string(body)
 
-	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(string(bodyJSON)))
+	req := httptest.NewRequest(http.MethodPost, "/users/login", strings.NewReader(bodyJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -357,7 +357,7 @@ func (s *UserHandlerTestSuite) TestLogin_ShouldReturnEmailInvalidValidation() {
 	s.EqualValues(respBodyJSON, rec.Body.String())
 }
 
-func TestCreateUser(t *testing.T) {
+func TestUserHandler(t *testing.T) {
 	t.Parallel()
 	suite.Run(t, new(UserHandlerTestSuite))
 }

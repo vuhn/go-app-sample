@@ -6,6 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	apiMiddleware "github.com/vuhn/go-app-sample/application/api/middleware"
+
 	"github.com/vuhn/go-app-sample/application/api/validator"
 	"github.com/vuhn/go-app-sample/config"
 	"github.com/vuhn/go-app-sample/entity"
@@ -17,14 +19,18 @@ import (
 
 func main() {
 	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Validator = validator.NewAPIValidator()
 
 	appConfig, err := config.LoadAppConfig()
 	if err != nil {
 		e.Logger.Error(err)
 		panic("failed to load application configuration")
 	}
+
+	token := token.NewJWTToken(appConfig.Secret.JWTKey)
+	authMiddleware := apiMiddleware.NewAuthMiddleWare(token)
+	e.Use(middleware.Logger())
+	e.Use(authMiddleware.ValidateRequest)
+	e.Validator = validator.NewAPIValidator()
 
 	db, err := postgres.NewDB(appConfig)
 	if err != nil {
@@ -33,12 +39,13 @@ func main() {
 	}
 	// TODO: move to infrastructure db
 	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.Task{})
 
 	apiDeps := &Dependencies{
 		DB:          db,
 		Server:      e,
 		IDGenerator: idgenerator.NewIDGenerator(),
-		Token:       token.NewJWTToken(appConfig.Secret.JWTKey),
+		Token:       token,
 		Password:    password.NewBcryptPassword(),
 	}
 

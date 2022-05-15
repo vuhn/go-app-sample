@@ -28,7 +28,7 @@ func NewUserHandler(echo *echo.Echo,
 	echo.POST("/users/login", handler.Login)
 }
 
-// CreateUser is method for create user endpoint
+// CreateUser is method for create user api endpoint
 func (h *UserHandler) CreateUser(c echo.Context) error {
 	user := dto.UserRequest{}
 	if err := c.Bind(&user); err != nil {

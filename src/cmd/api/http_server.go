@@ -27,6 +27,10 @@ func InitAPIHandler(deps *Dependencies) {
 	idGenerator := deps.IDGenerator
 
 	userRepository := postgresrepo.NewUserRepository(db)
+	taskRepository := postgresrepo.NewTaskRepository(db)
+
 	userService := serviceimpl.NewUserService(userRepository, deps.Token, deps.Password)
+	taskService := serviceimpl.NewTaskService(userRepository, taskRepository)
 	handler.NewUserHandler(server, userService, idGenerator)
+	handler.NewTaskHandler(server, taskService, idGenerator)
 }
