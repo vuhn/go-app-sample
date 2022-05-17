@@ -1,6 +1,6 @@
 # Sample Go Application
 
-This is a sample go application based on ddd idea.
+This is a sample go application based on DDD idea.
 
 
 ## Start app on local without Docker

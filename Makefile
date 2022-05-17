@@ -28,14 +28,16 @@ ci-deploy-gcp:
 	make deploy-gcp
 
 deploy-gcp:
-	cat src/.deployment/app_evn_dev.yaml > src/.deployment/app_env.yaml
-	echo "  DB_HOST: $(DB_HOST)" >> src/.deployment/app_env.yaml
-	echo "  DB_PASSWORD: $(DB_PASSWORD)" >> src/.deployment/app_env.yaml
-	echo "  JWT_KEY: $(JWT_KEY)" >> src/.deployment/app_env.yaml
+	cp deployment/app.yaml src/app.yaml
+	cat deployment/app_evn_dev.yaml > src/app_env.yaml
+	echo "  DB_HOST: $(DB_HOST)" >> src/app_env.yaml
+	echo "  DB_PASSWORD: $(DB_PASSWORD)" >> src/app_env.yaml
+	echo "  JWT_KEY: $(JWT_KEY)" >> src/app_env.yaml
 	cd src; gcloud app deploy \
 		--project ${GCP_PROJECT_ID} \
 		--version ${VER} \
 		--no-promote \
 		--quiet \
-		./.deployment/app.yaml
-	rm src/.deployment/app_env.yaml
+		./app.yaml
+	rm src/app_env.yaml
+	rm src/app.yaml
