@@ -40,7 +40,7 @@ func (s *UserHandlerTestSuite) SetupTest() {
 
 func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnSuccess() {
 	userID := uuid.NewString()
-	user := &dto.UserRequest{
+	user := &dto.CreateUserRequest{
 		ID:        userID,
 		Email:     "test1@gmail.com",
 		Fullname:  "Test1",
@@ -80,7 +80,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnSuccess() {
 
 func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnInvalidValidation() {
 	userID := uuid.NewString()
-	user := &dto.UserRequest{
+	user := &dto.CreateUserRequest{
 		ID:        userID,
 		Email:     "invalid_email",
 		Fullname:  "Test1",
@@ -116,7 +116,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnInvalidValidation() {
 
 func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnEmailExistedError() {
 	userID := uuid.NewString()
-	user := &dto.UserRequest{
+	user := &dto.CreateUserRequest{
 		ID:        userID,
 		Email:     "test1@gmail.com",
 		Fullname:  "Test1",
@@ -154,7 +154,7 @@ func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnEmailExistedError() {
 
 func (s *UserHandlerTestSuite) TestCreateUser_ShouldReturnServerError() {
 	userID := uuid.NewString()
-	user := &dto.UserRequest{
+	user := &dto.CreateUserRequest{
 		ID:        userID,
 		Email:     "test1@gmail.com",
 		Fullname:  "Test1",

@@ -7,8 +7,8 @@ import (
 )
 
 type (
-	// UserRequest defines http request params to create/update user
-	UserRequest struct {
+	// CreateUserRequest defines http request params to create/update user
+	CreateUserRequest struct {
 		ID        string    `json:"id"`
 		Email     string    `json:"email" validate:"required,email"`
 		Fullname  string    `json:"full_name" validate:"required,gte=2,lte=100"`
@@ -34,7 +34,7 @@ type (
 )
 
 // ToEntity returns user entity from user dto
-func (u *UserRequest) ToEntity() *entity.User {
+func (u *CreateUserRequest) ToEntity() *entity.User {
 	return &entity.User{
 		ID:        u.ID,
 		Email:     u.Email,

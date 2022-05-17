@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ./.docker/Dockerfile
-    image: vuhn07/go-clean-arch
+    image: vuhn07/go-app-sample
     ports:
       - "8080:8080"
     depends_on:

@@ -30,7 +30,7 @@ func NewUserHandler(echo *echo.Echo,
 
 // CreateUser is method for create user api endpoint
 func (h *UserHandler) CreateUser(c echo.Context) error {
-	user := dto.UserRequest{}
+	user := dto.CreateUserRequest{}
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, dto.NewErrorResponse(errs.ErrInvalidRequestBody.Error()))
 	}
