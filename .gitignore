@@ -1,4 +1,4 @@
 .docker/volumes/pgdata/*
 gcp_service_account_key.json
-app.yaml
+src/app.yaml
 app_env.yaml
