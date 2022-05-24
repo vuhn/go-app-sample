@@ -34,3 +34,33 @@ func (_m *TaskRepository) CreateTask(task *entity.Task) (*entity.Task, error) {
 
 	return r0, r1
 }
+
+// GetTasksList provides a mock function with given fields: limit, offset
+func (_m *TaskRepository) GetTasksList(limit int, offset int) ([]*entity.Task, int64, error) {
+	ret := _m.Called(limit, offset)
+
+	var r0 []*entity.Task
+	if rf, ok := ret.Get(0).(func(int, int) []*entity.Task); ok {
+		r0 = rf(limit, offset)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*entity.Task)
+		}
+	}
+
+	var r1 int64
+	if rf, ok := ret.Get(1).(func(int, int) int64); ok {
+		r1 = rf(limit, offset)
+	} else {
+		r1 = ret.Get(1).(int64)
+	}
+
+	var r2 error
+	if rf, ok := ret.Get(2).(func(int, int) error); ok {
+		r2 = rf(limit, offset)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}

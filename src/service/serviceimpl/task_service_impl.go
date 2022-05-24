@@ -26,8 +26,8 @@ type TaskServiceImpl struct {
 
 // CreateTask is method to create a Task
 func (t *TaskServiceImpl) CreateTask(task *entity.Task) (*entity.Task, error) {
-	if task.Assignee != "" {
-		user, err := t.userRepository.GetUserByID(task.Assignee)
+	if task.Assignee.String != "" {
+		user, err := t.userRepository.GetUserByID(task.Assignee.String)
 		if err != nil {
 			return nil, errs.ErrInternalServer
 		}
@@ -35,6 +35,7 @@ func (t *TaskServiceImpl) CreateTask(task *entity.Task) (*entity.Task, error) {
 		if user == nil {
 			return nil, errs.ErrUserNotFound
 		}
+		task.User = user
 	}
 
 	taskEntity, err := t.taskRepository.CreateTask(task)
@@ -43,4 +44,14 @@ func (t *TaskServiceImpl) CreateTask(task *entity.Task) (*entity.Task, error) {
 	}
 
 	return taskEntity, nil
+}
+
+// GetTasksList return lists of tasks
+func (t *TaskServiceImpl) GetTasksList(limit int, offset int) ([]*entity.Task, int64, error) {
+	tasks, total, err := t.taskRepository.GetTasksList(limit, offset)
+	if err != nil {
+		return nil, 0, errs.ErrInternalServer
+	}
+
+	return tasks, total, nil
 }

@@ -47,6 +47,9 @@ func (u *CreateUserRequest) ToEntity() *entity.User {
 
 // NewUserResponseFromEntity returns UserResponse from user entity
 func NewUserResponseFromEntity(entity *entity.User) *UserResponse {
+	if entity == nil {
+		return nil
+	}
 	return &UserResponse{
 		ID:        entity.ID,
 		Email:     entity.Email,
