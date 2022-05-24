@@ -31,7 +31,7 @@ func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnSuccess() {
 	task := testdata.Task1
 	user := testdata.User1
 	s.userRepository.
-		On("GetUserByID", task.Assignee).
+		On("GetUserByID", task.Assignee.String).
 		Return(user, nil)
 
 	s.taskRepository.
@@ -47,7 +47,7 @@ func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnSuccess() {
 func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnServerErrorWhenGetUser() {
 	task := testdata.Task1
 	s.userRepository.
-		On("GetUserByID", task.Assignee).
+		On("GetUserByID", task.Assignee.String).
 		Return(nil, ErrUnexpectedTask)
 
 	taskService := NewTaskService(s.userRepository, s.taskRepository)
@@ -59,7 +59,7 @@ func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnServerErrorWhenGetUser
 func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnErrUserNotFound() {
 	task := testdata.Task1
 	s.userRepository.
-		On("GetUserByID", task.Assignee).
+		On("GetUserByID", task.Assignee.String).
 		Return(nil, nil)
 
 	taskService := NewTaskService(s.userRepository, s.taskRepository)
@@ -72,7 +72,7 @@ func (s *TaskServiceTestSuite) TestCreateTask_ShouldReturnServerErrorWhenCreateT
 	task := testdata.Task1
 	user := testdata.User1
 	s.userRepository.
-		On("GetUserByID", task.Assignee).
+		On("GetUserByID", task.Assignee.String).
 		Return(user, nil)
 
 	s.taskRepository.
