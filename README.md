@@ -1,6 +1,6 @@
 # Sample Go Application
 
-This is a sample go application based on DDD idea.
+This is a sample go application based on DDD.
 
 
 ## Start app on local without Docker
@@ -18,7 +18,7 @@ make start-api
 
 ## Start app on local using Docker
 
-Required: Docker is running on your local machine.
+Requirement: Docker is running on your local machine.
 
 ```sh
 make run
